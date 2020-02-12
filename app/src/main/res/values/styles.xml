@@ -12,4 +12,8 @@
         <item name="android:textColor">@color/RED </item>
         <item name="android:textSize">24sp</item>
     </style>
+
+    <style name="button_styles">
+        <item name="android:background">@null</item>
+    </style>
 </resources>

@@ -1,22 +1,16 @@
 package com.example.egy
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.example.egy.retrofil.CatFactsAPI1
 import com.example.egy.retrofil.CatFactsResult
 import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.time.Duration
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -24,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private val URL_BASE = "https://cat-fact.herokuapp.com/facts/random"
+    private val myFav: MutableList<String> = mutableListOf()
 
 
 
@@ -51,7 +46,14 @@ class MainActivity : AppCompatActivity() {
         retrofil()
         time()
 
+       newfactbutton.setOnClickListener(){
+           retrofil();
+       }
+        //works the add
+        likebutton.setOnClickListener(){
+            myFav.add(text2.text.toString())
 
+        }
     }
 
     fun retrofil(){
