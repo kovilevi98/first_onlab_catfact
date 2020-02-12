@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Cat Facts</string>
+    <string name="hello">Cat facts</string>
+    <string name="fact">facts</string>
+    <string name="time">00:00:00</string>
+    <string name="New_Fact">New Fact</string>
+</resources>
