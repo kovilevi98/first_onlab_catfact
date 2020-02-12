@@ -1,8 +1,11 @@
 package com.example.egy
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
+import android.widget.Toast
 import com.example.egy.retrofil.CatFactsAPI1
 import com.example.egy.retrofil.CatFactsResult
 import kotlinx.android.synthetic.main.activity_main.*
@@ -13,13 +16,18 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
+import com.google.gson.Gson as Gson1
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlin.collections.ArrayList
+
 
 class MainActivity : AppCompatActivity() {
 
 
     private val URL_BASE = "https://cat-fact.herokuapp.com/facts/random"
     private val myFav: MutableList<String> = mutableListOf()
-
+    private val datakey="hhTry"
 
 
    /* private val brWeatherReceiver = object : BroadcastReceiver() {
@@ -52,8 +60,18 @@ class MainActivity : AppCompatActivity() {
         //works the add
         likebutton.setOnClickListener(){
             myFav.add(text2.text.toString())
+            saveArrayList(ArrayList(myFav),datakey)
 
         }
+
+       favoritesbutton.setOnClickListener(){
+          val loadedList=getArrayList(datakey)
+           if(loadedList != null)
+               //text1.text=loadedList.size.toString()
+           else
+           Toast.makeText(applicationContext, "You do not have favorites yet", Toast.LENGTH_LONG).show()
+
+       }
     }
 
     fun retrofil(){
@@ -76,6 +94,26 @@ class MainActivity : AppCompatActivity() {
         })
 
     }
+
+    fun saveArrayList(list: ArrayList<String>, key: String) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = prefs.edit()
+        val gson = Gson()
+        val json = gson.toJson(list)
+        editor.putString(key, json)
+        editor.apply()     // This line is IMPORTANT !!!
+    }
+
+    fun getArrayList(key: String): ArrayList<String>? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val gson = Gson()
+        val json = prefs.getString(key, null)
+        val type = object : TypeToken<ArrayList<String>>() {
+
+        }.type
+        return gson.fromJson(json, type)
+    }
+
     fun time(){
         val c = Calendar.getInstance()
         c.add(Calendar.DAY_OF_MONTH, 1)
